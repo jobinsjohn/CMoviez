@@ -14,6 +14,10 @@
 		4341E2452084BE3F000F6F2D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4341E2432084BE3F000F6F2D /* LaunchScreen.storyboard */; };
 		4341E2502084BE3F000F6F2D /* CMoviezTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E24F2084BE3F000F6F2D /* CMoviezTests.swift */; };
 		4341E25B2084BE3F000F6F2D /* CMoviezUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E25A2084BE3F000F6F2D /* CMoviezUITests.swift */; };
+		4341E26B2084C01B000F6F2D /* CMSearchMovTbCellController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E26A2084C01B000F6F2D /* CMSearchMovTbCellController.swift */; };
+		4341E26D2084C037000F6F2D /* CMSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E26C2084C036000F6F2D /* CMSearchViewController.swift */; };
+		4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2702084C4D3000F6F2D /* UI-Constants.swift */; };
+		4341E2732084C4D3000F6F2D /* App-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2712084C4D3000F6F2D /* App-Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +51,10 @@
 		4341E2562084BE3F000F6F2D /* CMoviezUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CMoviezUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4341E25A2084BE3F000F6F2D /* CMoviezUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMoviezUITests.swift; sourceTree = "<group>"; };
 		4341E25C2084BE3F000F6F2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4341E26A2084C01B000F6F2D /* CMSearchMovTbCellController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSearchMovTbCellController.swift; sourceTree = "<group>"; };
+		4341E26C2084C036000F6F2D /* CMSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSearchViewController.swift; sourceTree = "<group>"; };
+		4341E2702084C4D3000F6F2D /* UI-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UI-Constants.swift"; sourceTree = "<group>"; };
+		4341E2712084C4D3000F6F2D /* App-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App-Constants.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,8 @@
 		4341E2392084BE3E000F6F2D /* CMoviez */ = {
 			isa = PBXGroup;
 			children = (
+				4341E2682084BFAD000F6F2D /* Constants */,
+				4341E2692084BFE6000F6F2D /* Search */,
 				4341E23A2084BE3E000F6F2D /* AppDelegate.swift */,
 				4341E23C2084BE3E000F6F2D /* ViewController.swift */,
 				4341E23E2084BE3E000F6F2D /* Main.storyboard */,
@@ -123,6 +133,24 @@
 				4341E25C2084BE3F000F6F2D /* Info.plist */,
 			);
 			path = CMoviezUITests;
+			sourceTree = "<group>";
+		};
+		4341E2682084BFAD000F6F2D /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				4341E2712084C4D3000F6F2D /* App-Constants.swift */,
+				4341E2702084C4D3000F6F2D /* UI-Constants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		4341E2692084BFE6000F6F2D /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				4341E26A2084C01B000F6F2D /* CMSearchMovTbCellController.swift */,
+				4341E26C2084C036000F6F2D /* CMSearchViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,8 +284,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4341E26D2084C037000F6F2D /* CMSearchViewController.swift in Sources */,
+				4341E2732084C4D3000F6F2D /* App-Constants.swift in Sources */,
 				4341E23D2084BE3E000F6F2D /* ViewController.swift in Sources */,
+				4341E26B2084C01B000F6F2D /* CMSearchMovTbCellController.swift in Sources */,
 				4341E23B2084BE3E000F6F2D /* AppDelegate.swift in Sources */,
+				4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,8 +462,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6KE7N9QX2T;
 				INFOPLIST_FILE = CMoviez/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -441,10 +473,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00d8320b-e49e-4f37-abf9-3a4bcd6b0a36";
-				PROVISIONING_PROFILE_SPECIFIER = CMovies_ProV_Profile_Enterprise;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -452,8 +484,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6KE7N9QX2T;
 				INFOPLIST_FILE = CMoviez/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -463,10 +495,10 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00d8320b-e49e-4f37-abf9-3a4bcd6b0a36";
-				PROVISIONING_PROFILE_SPECIFIER = CMovies_ProV_Profile_Enterprise;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -45,7 +45,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     fileprivate var movPosterArr      :   [String]    = []
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,9 +53,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         CMSearchViewSrchBarOutlet.delegate = self
         
-        CMSearchViewMovTbOutlet.rowHeight = UITableViewAutomaticDimension
+        self.addNavBarImage()
         
-        CMSearchViewMovTbOutlet.estimatedRowHeight = 160
+//        CMSearchViewMovTbOutlet.rowHeight = UITableViewAutomaticDimension
+//
+//        //CMSearchViewMovTbOutlet.estimatedRowHeight = 160
         
         self.hideKeyboardWhenTappedAround()  // For dismissing Keyboard
     }
@@ -65,7 +67,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         //self.getMovieListFromServerInitial()
     }
-    
+    override func viewDidLayoutSubviews() {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -98,6 +102,29 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         self.currentPage     = 0
         
         self.totalpageCount  = 0
+    }
+    
+    func addNavBarImage() {
+        
+        let navController = navigationController!
+        
+        let image = UIImage(named: "navBarImg")
+        
+        let imageView = UIImageView(image: image)
+        
+        let bannerWidth = navController.navigationBar.frame.size.width
+        
+        let bannerHeight = navController.navigationBar.frame.size.height
+        
+        let bannerX = bannerWidth / 2 - (image?.size.width)! / 2
+        
+        let bannerY = bannerHeight / 2 - (image?.size.height)! / 2
+        
+        imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
+        
+        imageView.contentMode = .scaleAspectFit
+        
+        navigationItem.titleView = imageView
     }
     
     // MARK: - Button Action
@@ -134,16 +161,30 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
 
         movieCell.moviePosterImageView.kf.indicatorType = .activity
-
-        let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
-
-        movieCell.moviePosterImageView.kf.setImage(with: imgURL)
         
+        let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
+        
+        print(movPosterArr[indexPath.row])
+        
+        if(movPosterArr[indexPath.row] == "")
+        {
+            movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
+        }
+        else
+        {
+             movieCell.moviePosterImageView.kf.setImage(with: imgURL)
+        }
+        
+
         movieCell.movieNameLabel.text = movNameArr[indexPath.row]
         
         movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
         
         movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
+        
+        movieCell.movieNameLabel.sizeToFit()
+        
+        movieCell.movieOverviewLabel.sizeToFit()
        
         return movieCell
     }
@@ -152,10 +193,30 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         let lastElement = movNameArr.count - 1
         if indexPath.row == lastElement {
             // handle your logic here to get more items, add it to dataSource and reload tableview
-            self.getMovieListFromServerLoadMore()
+            self.getMovieListFromServerLoadMore(searchStringMore: searchTextLocal)
         }
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 160.0
+    }
+    
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        //return UITableViewAutomaticDimension
+//
+//        var frame = tableView.rectForRow(at: indexPath)
+//        //let ff = tableView.indexPathForSelectedRow
+//        print(frame.size.height)
+//
+//        if(frame.size.height < 160.0)
+//        {
+//            return 160.0
+//        }
+//        else
+//        {
+//            return UITableViewAutomaticDimension
+//        }
+//    }
     
     //Search Bar Delegates
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -200,8 +261,13 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         print(CMSearchViewSrchBarOutlet.text!)
     }
     
-    // MARK: - API Calls
+    func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
+        print(CMSearchViewSrchBarOutlet.text!)
+    }
     
+    
+    // MARK: - API Calls
+
     func getMovieListFromServerInitial(searchString : String)
     {
         self.clearLocalData()
@@ -249,23 +315,20 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                 print(error)
             }
         }
-
-
     }
-    func getMovieListFromServerLoadMore()
+    func getMovieListFromServerLoadMore(searchStringMore : String)
     {
         //self.clearLocalData()
         if(isLoadingData){
             return
         }
-        
         self.currentPage = currentPage + 1
         
         self.isLoadingData = true
         
         if(self.currentPage <= self.totalpageCount)
         {
-            let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
+            let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchStringMore+"&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
                 print(webURL)
             Alamofire.request(webURL).validate().responseJSON { response in
                 switch response.result {

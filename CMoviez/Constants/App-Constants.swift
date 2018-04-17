@@ -14,7 +14,7 @@ import UIKit
 
 let APP_BASE_URL                        =   "http://api.themoviedb.org/"
 
-let APP_IMG_URL                         =   "http://image.tmdb.org/t/p/w185"
+let APP_IMG_URL                         =   "http://image.tmdb.org/t/p/w92"
 
 // MARK: - APP Titles
 

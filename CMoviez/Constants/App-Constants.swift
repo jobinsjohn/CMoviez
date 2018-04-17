@@ -14,14 +14,14 @@ import UIKit
 
 let APP_BASE_URL                        =   "http://api.themoviedb.org/"
 
-let APP_IMG_URL                         =   "http://image.tmdb.org/t/p/w92"
+let APP_IMG_URL                         =   "http://image.tmdb.org/t/p/w185"
 
 // MARK: - APP Titles
 
 let APP_NAME                            =   "Careem Movies"
 
 // MARK: - APP Token keys
-let SERVER_API_TOKEN                    =   "2696829a81b1b5827d515ff121700838"
+let SERVER_API_TOKEN                    =   "2696829a81b1b5827d515ff121700838"//"2696829a81b1b5827d515ff121700838"
 
 // MARK: - View Titles
 

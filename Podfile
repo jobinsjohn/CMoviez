@@ -9,6 +9,10 @@ target 'CMoviez' do
 	pod 'Kingfisher', '~> 4.0'
 
 	pod 'SwiftyJSON', '~> 4.0'
+
+	#pod 'IQKeyboardManager'
+
+	pod 'IQKeyboardManagerSwift'
   # Pods for CMoviez
 
   target 'CMoviezTests' do

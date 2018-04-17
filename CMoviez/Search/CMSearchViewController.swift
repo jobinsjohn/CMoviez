@@ -15,6 +15,8 @@ import Alamofire
 import SwiftyJSON
 
 
+
+
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var CMSearchViewMasterViewOutlet: UIView!
@@ -122,20 +124,24 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     //Search Bar Delegates
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchActive = true;
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        //searchActive = true;
+        print(searchBar.text!)
     }
     
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-        searchActive = false;
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        //searchActive = false;
+        print(searchBar.text!)
     }
     
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        //searchActive = false;
+        print(searchBar.text!)
     }
     
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchActive = false;
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        //searchActive = false;
+        print(searchBar.text!)
     }
     
     // MARK: - API Calls

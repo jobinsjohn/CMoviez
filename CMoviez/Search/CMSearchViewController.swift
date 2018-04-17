@@ -232,7 +232,15 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //searchActive = true;
-        print(CMSearchViewSrchBarOutlet.text!)
+        if (CMSearchViewSrchBarOutlet.text?.count == 0)
+        {
+            print("While entering the characters this method gets called")
+            
+            self.clearLocalData()
+            
+            self.CMSearchViewMovTbOutlet.reloadData()
+            
+        }
     }
 
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -295,6 +303,10 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
 
                                 self.CMSearchViewMovTbOutlet.reloadData()
                             }
+                            //Insert Search String into CoreData Data Base
+                            
+                            
+                            
                         }
                     }
                     self.isLoadingData = false

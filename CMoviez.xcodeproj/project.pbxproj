@@ -137,6 +137,7 @@
 		4341E2392084BE3E000F6F2D /* CMoviez */ = {
 			isa = PBXGroup;
 			children = (
+				43EDB02B208618BC00034353 /* LocalStorage */,
 				43EDB0272085CB7000034353 /* Helpers */,
 				4341E2682084BFAD000F6F2D /* Constants */,
 				4341E2692084BFE6000F6F2D /* Search */,
@@ -200,6 +201,13 @@
 				43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		43EDB02B208618BC00034353 /* LocalStorage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = LocalStorage;
 			sourceTree = "<group>";
 		};
 		906ED03ABAC358BF3C46C9D9 /* Frameworks */ = {

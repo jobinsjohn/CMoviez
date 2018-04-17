@@ -19,6 +19,7 @@
 		4341E26D2084C037000F6F2D /* CMSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E26C2084C036000F6F2D /* CMSearchViewController.swift */; };
 		4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2702084C4D3000F6F2D /* UI-Constants.swift */; };
 		4341E2732084C4D3000F6F2D /* App-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2712084C4D3000F6F2D /* App-Constants.swift */; };
+		43EDB02A2085CBAE00034353 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */; };
 		7A0E76E236296822BFB160BA /* Pods_CMoviez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5652AFC926F719F0E8AEFCF /* Pods_CMoviez.framework */; };
 		D9EEB1C83B59D13E860CA92D /* Pods_CMoviezTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D79FD30190AFAD018993880 /* Pods_CMoviezTests.framework */; };
 /* End PBXBuildFile section */
@@ -60,6 +61,7 @@
 		4341E26C2084C036000F6F2D /* CMSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CMSearchViewController.swift; sourceTree = "<group>"; };
 		4341E2702084C4D3000F6F2D /* UI-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UI-Constants.swift"; sourceTree = "<group>"; };
 		4341E2712084C4D3000F6F2D /* App-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App-Constants.swift"; sourceTree = "<group>"; };
+		43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		98D75E125D9A3865CE9C5A36 /* Pods-CMoviez.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMoviez.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMoviez/Pods-CMoviez.release.xcconfig"; sourceTree = "<group>"; };
 		9F7ED800A551CABC147EE049 /* Pods-CMoviezUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMoviezUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMoviezUITests/Pods-CMoviezUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B21E1629810D12EA61DE18A0 /* Pods_CMoviezUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CMoviezUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,6 +137,7 @@
 		4341E2392084BE3E000F6F2D /* CMoviez */ = {
 			isa = PBXGroup;
 			children = (
+				43EDB0272085CB7000034353 /* Helpers */,
 				4341E2682084BFAD000F6F2D /* Constants */,
 				4341E2692084BFE6000F6F2D /* Search */,
 				4341E23A2084BE3E000F6F2D /* AppDelegate.swift */,
@@ -181,6 +184,22 @@
 				4341E26C2084C036000F6F2D /* CMSearchViewController.swift */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		43EDB0272085CB7000034353 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				43EDB0282085CB7A00034353 /* Extensions */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		43EDB0282085CB7A00034353 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		906ED03ABAC358BF3C46C9D9 /* Frameworks */ = {
@@ -412,6 +431,7 @@
 				4341E26D2084C037000F6F2D /* CMSearchViewController.swift in Sources */,
 				4341E2732084C4D3000F6F2D /* App-Constants.swift in Sources */,
 				4341E23D2084BE3E000F6F2D /* ViewController.swift in Sources */,
+				43EDB02A2085CBAE00034353 /* UIViewController+Extensions.swift in Sources */,
 				4341E26B2084C01B000F6F2D /* CMSearchMovTbCellController.swift in Sources */,
 				4341E23B2084BE3E000F6F2D /* AppDelegate.swift in Sources */,
 				4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */,
@@ -593,7 +613,10 @@
 				DEVELOPMENT_TEAM = 6KE7N9QX2T;
 				INFOPLIST_FILE = CMoviez/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -613,7 +636,10 @@
 				DEVELOPMENT_TEAM = 6KE7N9QX2T;
 				INFOPLIST_FILE = CMoviez/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviez;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -631,7 +657,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CMoviezTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviezTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -648,7 +678,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CMoviezTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviezTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -664,7 +698,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CMoviezUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviezUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -680,7 +718,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = CMoviezUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = me.jobins.CMoviezUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

@@ -35,6 +35,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     var isLoadingData   : Bool  = false
     
+    var searchTextLocal : String = ""
+    
     fileprivate var movNameArr        :   [String]    = []
     
     fileprivate var movRelDateArr     :   [String]    = []
@@ -50,6 +52,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         // Do any additional setup after loading the view.
         
         CMSearchViewSrchBarOutlet.delegate = self
+        
+        CMSearchViewMovTbOutlet.rowHeight = UITableViewAutomaticDimension
+        
+        CMSearchViewMovTbOutlet.estimatedRowHeight = 160
+        
+        self.hideKeyboardWhenTappedAround()  // For dismissing Keyboard
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,11 +91,29 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         movPosterArr    = []
     }
     
+    func clearCountVariables()
+    {
+        self.startPage       = 1
+        
+        self.currentPage     = 0
+        
+        self.totalpageCount  = 0
+    }
+    
     // MARK: - Button Action
     
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
         debugPrint("Search Btn Tapped")
-        self.getMovieListFromServerInitial()
+        
+        searchTextLocal = self.CMSearchViewSrchBarOutlet.text!
+        if(searchTextLocal != "")
+        {
+            self.getMovieListFromServerInitial(searchString: searchTextLocal)
+        }
+        else
+        {
+            print("Search empty")
+        }
     }
     
     // MARK: - Delegates
@@ -132,35 +158,59 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     
     //Search Bar Delegates
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(CMSearchViewSrchBarOutlet.text!)
+    }
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        print(text)
+        
+        if (CMSearchViewSrchBarOutlet.text?.count == 0)
+        {
+            print("While entering the characters this method gets called")
+            
+            self.clearLocalData()
+            
+            self.CMSearchViewMovTbOutlet.reloadData()
+            
+        }
+        let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
+        
+        let filteredSearchText = text.components(separatedBy: cs).joined(separator: "")
+        
+        return (text == filteredSearchText)
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //searchActive = true;
-        print(searchBar.text!)
+        print(CMSearchViewSrchBarOutlet.text!)
     }
-    
+
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         //searchActive = false;
-        print(searchBar.text!)
+        print(CMSearchViewSrchBarOutlet.text!)
     }
-    
+
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         //searchActive = false;
-        print(searchBar.text!)
+        print(CMSearchViewSrchBarOutlet.text!)
     }
-    
+
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //searchActive = false;
-        print(searchBar.text!)
+        print(CMSearchViewSrchBarOutlet.text!)
     }
     
     // MARK: - API Calls
     
-    func getMovieListFromServerInitial()
+    func getMovieListFromServerInitial(searchString : String)
     {
         self.clearLocalData()
         
         self.currentPage = startPage
         
-        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
+        isLoadingData = true
+        
+        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchString+"&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
         print(webURL)
         Alamofire.request(webURL).validate().responseJSON { response in
             switch response.result {
@@ -170,10 +220,10 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                 {
                     let jsonObj  = JSON(json)
 
-                    //print(jsonObj)
                     if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
                     {
-                        print(resultsArray.count)
+                        self.totalpageCount = jsonObj["total_pages"].intValue
+                        
                         if(resultsArray.count > 0)
                         {
                             for index in 0...resultsArray.count-1
@@ -191,10 +241,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                             }
                         }
                     }
-
+                    self.isLoadingData = false
                 }
 
             case .failure(let error):
+                self.isLoadingData = false
                 print(error)
             }
         }
@@ -204,50 +255,63 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     func getMovieListFromServerLoadMore()
     {
         //self.clearLocalData()
+        if(isLoadingData){
+            return
+        }
         
         self.currentPage = currentPage + 1
         
-        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
-        print(webURL)
-        Alamofire.request(webURL).validate().responseJSON { response in
-            switch response.result {
-            case .success:
-                print("Validation Successful")
-                if let json = response.result.value
-                {
-                    let jsonObj  = JSON(json)
+        self.isLoadingData = true
+        
+        if(self.currentPage <= self.totalpageCount)
+        {
+            let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
+                print(webURL)
+            Alamofire.request(webURL).validate().responseJSON { response in
+                switch response.result {
+                case .success:
+                    print("Validation Successful")
+                    if let json = response.result.value
+                    {
+                        let jsonObj  = JSON(json)
                     
                     //print(jsonObj)
-                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
-                    {
-                        print(resultsArray.count)
-                        if(resultsArray.count > 0)
+                        if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
                         {
-                            for index in 0...resultsArray.count-1
+                            print(resultsArray.count)
+                            if(resultsArray.count > 0)
                             {
+                                for index in 0...resultsArray.count-1
+                                {
                                 
-                                self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
+                                    self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
                                 
-                                self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
+                                    self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
                                 
-                                self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
+                                    self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
                                 
-                                self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
+                                    self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
                                 
-                                self.CMSearchViewMovTbOutlet.reloadData()
+                                    self.CMSearchViewMovTbOutlet.reloadData()
                                 //self.CMSearchViewMovTbOutlet.reloadData()
+                                }
                             }
                         }
-                    }
                     
-                }
+                        self.isLoadingData = false
+                    }
                 
-            case .failure(let error):
-                print(error)
+                case .failure(let error):
+                    print(error)
+                    self.isLoadingData = false
+                }
             }
         }
-        
-        
+        else
+        {
+            print("No more data to load")
+            self.isLoadingData = false
+        }
     }
     
     /*

@@ -8,7 +8,14 @@
 
 import UIKit
 
-class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+import Kingfisher
+
+import Alamofire
+
+import SwiftyJSON
+
+
+class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var CMSearchViewMasterViewOutlet: UIView!
     
@@ -39,6 +46,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        
+        CMSearchViewSrchBarOutlet.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,13 +85,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
         debugPrint("Search Btn Tapped")
+        self.getMovieListFromServerInitial()
     }
     
     // MARK: - Delegates
     
     //Table View Delegates
-    
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -90,78 +98,92 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 10
+        return movNameArr.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
-//
-//        movieCell.moviePosterImageView.kf.indicatorType = .activity
-//
-//        let imgURL       =   URL(string: APP_IMG_URL + "/kBf3g9crrADGMc2AMAMlLBgSm2h.jpg")
 
-        //rmovieCell.moviePosterImageView.kf.setImage(with: imgURL)
+        movieCell.moviePosterImageView.kf.indicatorType = .activity
+
+        let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
+
+        movieCell.moviePosterImageView.kf.setImage(with: imgURL)
         
-        movieCell.movieNameLabel.text = "Batman"
+        movieCell.movieNameLabel.text = movNameArr[indexPath.row]
         
-        movieCell.movieReleaseDateLabel.text = "Release Date : 1989-06-23"
+        movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
         
-        movieCell.movieOverviewLabel.text = "The Dark Knight of Gotham City begins his war on crime with his first major enemy being the clownishly homicidal Joker, who has seized control of Gotham's underworld."
-        
+        movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
+       
         return movieCell
     }
     
     
     //Search Bar Delegates
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true;
+    }
     
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false;
+    }
     
     // MARK: - API Calls
     
-//    func getMovieListFromServerInitial()
-//    {
-//        self.clearLocalData()
-//        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
-//        print(webURL)
-//        Alamofire.request(webURL).validate().responseJSON { response in
-//            switch response.result {
-//            case .success:
-//                print("Validation Successful")
-//                if let json = response.result.value
-//                {
-//                    let jsonObj  = JSON(json)
-//
-//                    //print(jsonObj)
-//                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
-//                    {
-//                        print(resultsArray.count)
-//                        if(resultsArray.count > 0)
-//                        {
-//                            for index in 0...resultsArray.count-1
-//                            {
-//
-//                                self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
-//
-//                                self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
-//
-//                                self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
-//
-//                                self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
-//
-//                                self.CMSearchViewMovTbOutlet.reloadData()
-//                            }
-//                        }
-//                    }
-//
-//                }
-//
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//
-//
-//    }
+    func getMovieListFromServerInitial()
+    {
+        self.clearLocalData()
+        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
+        print(webURL)
+        Alamofire.request(webURL).validate().responseJSON { response in
+            switch response.result {
+            case .success:
+                print("Validation Successful")
+                if let json = response.result.value
+                {
+                    let jsonObj  = JSON(json)
+
+                    //print(jsonObj)
+                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
+                    {
+                        print(resultsArray.count)
+                        if(resultsArray.count > 0)
+                        {
+                            for index in 0...resultsArray.count-1
+                            {
+
+                                self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
+
+                                self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
+
+                                self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
+
+                                self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
+
+                                self.CMSearchViewMovTbOutlet.reloadData()
+                            }
+                        }
+                    }
+
+                }
+
+            case .failure(let error):
+                print(error)
+            }
+        }
+
+
+    }
     
     
     /*

@@ -14,7 +14,7 @@ import Alamofire
 
 import SwiftyJSON
 
-
+import IQKeyboardManagerSwift
 
 
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
@@ -122,6 +122,14 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         return movieCell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let lastElement = movNameArr.count - 1
+        if indexPath.row == lastElement {
+            // handle your logic here to get more items, add it to dataSource and reload tableview
+            self.getMovieListFromServerLoadMore()
+        }
+    }
+    
     
     //Search Bar Delegates
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -149,6 +157,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     func getMovieListFromServerInitial()
     {
         self.clearLocalData()
+        
+        self.currentPage = startPage
+        
         let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
         print(webURL)
         Alamofire.request(webURL).validate().responseJSON { response in
@@ -190,7 +201,54 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
 
 
     }
-    
+    func getMovieListFromServerLoadMore()
+    {
+        //self.clearLocalData()
+        
+        self.currentPage = currentPage + 1
+        
+        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query=batman&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
+        print(webURL)
+        Alamofire.request(webURL).validate().responseJSON { response in
+            switch response.result {
+            case .success:
+                print("Validation Successful")
+                if let json = response.result.value
+                {
+                    let jsonObj  = JSON(json)
+                    
+                    //print(jsonObj)
+                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
+                    {
+                        print(resultsArray.count)
+                        if(resultsArray.count > 0)
+                        {
+                            for index in 0...resultsArray.count-1
+                            {
+                                
+                                self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
+                                
+                                self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
+                                
+                                self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
+                                
+                                self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
+                                
+                                self.CMSearchViewMovTbOutlet.reloadData()
+                                //self.CMSearchViewMovTbOutlet.reloadData()
+                            }
+                        }
+                    }
+                    
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        
+    }
     
     /*
      // MARK: - Navigation

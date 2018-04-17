@@ -132,7 +132,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
         debugPrint("Search Btn Tapped")
         
-        searchTextLocal = self.CMSearchViewSrchBarOutlet.text!
+        let originalSearchString = self.CMSearchViewSrchBarOutlet.text!
+        
+        let modifiedSearchString = originalSearchString.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
+        
+        searchTextLocal = modifiedSearchString
+        
         if(searchTextLocal != "")
         {
             self.getMovieListFromServerInitial(searchString: searchTextLocal)
@@ -187,6 +192,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         movieCell.movieOverviewLabel.sizeToFit()
        
         return movieCell
+        
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -197,25 +203,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160.0
-    }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        //return UITableViewAutomaticDimension
-//
-//        var frame = tableView.rectForRow(at: indexPath)
-//        //let ff = tableView.indexPathForSelectedRow
-//        print(frame.size.height)
-//
-//        if(frame.size.height < 160.0)
-//        {
-//            return 160.0
-//        }
-//        else
-//        {
-//            return UITableViewAutomaticDimension
-//        }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 160.0
 //    }
     
     //Search Bar Delegates
@@ -268,14 +257,15 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - API Calls
 
+
     func getMovieListFromServerInitial(searchString : String)
     {
         self.clearLocalData()
-        
+
         self.currentPage = startPage
-        
+
         isLoadingData = true
-        
+
         let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchString+"&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
         print(webURL)
         Alamofire.request(webURL).validate().responseJSON { response in
@@ -289,7 +279,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                     if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
                     {
                         self.totalpageCount = jsonObj["total_pages"].intValue
-                        
+
                         if(resultsArray.count > 0)
                         {
                             for index in 0...resultsArray.count-1

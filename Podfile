@@ -6,7 +6,7 @@ target 'CMoviez' do
   use_frameworks!
 	pod 'Alamofire', '~> 4.7'
 
-	pod 'Kingfisher', '~> 4.0'
+	pod 'Kingfisher', '~> 4'
 
 	pod 'SwiftyJSON', '~> 4.0'
 

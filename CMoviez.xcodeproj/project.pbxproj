@@ -20,6 +20,7 @@
 		4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2702084C4D3000F6F2D /* UI-Constants.swift */; };
 		4341E2732084C4D3000F6F2D /* App-Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4341E2712084C4D3000F6F2D /* App-Constants.swift */; };
 		43EDB02A2085CBAE00034353 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */; };
+		43EDB02E208619A100034353 /* LocalDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 43EDB02C208619A100034353 /* LocalDB.xcdatamodeld */; };
 		7A0E76E236296822BFB160BA /* Pods_CMoviez.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5652AFC926F719F0E8AEFCF /* Pods_CMoviez.framework */; };
 		D9EEB1C83B59D13E860CA92D /* Pods_CMoviezTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D79FD30190AFAD018993880 /* Pods_CMoviezTests.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +63,7 @@
 		4341E2702084C4D3000F6F2D /* UI-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UI-Constants.swift"; sourceTree = "<group>"; };
 		4341E2712084C4D3000F6F2D /* App-Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "App-Constants.swift"; sourceTree = "<group>"; };
 		43EDB0292085CBAE00034353 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		43EDB02D208619A100034353 /* LocalDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = LocalDB.xcdatamodel; sourceTree = "<group>"; };
 		98D75E125D9A3865CE9C5A36 /* Pods-CMoviez.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMoviez.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMoviez/Pods-CMoviez.release.xcconfig"; sourceTree = "<group>"; };
 		9F7ED800A551CABC147EE049 /* Pods-CMoviezUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CMoviezUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CMoviezUITests/Pods-CMoviezUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B21E1629810D12EA61DE18A0 /* Pods_CMoviezUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CMoviezUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,6 +208,7 @@
 		43EDB02B208618BC00034353 /* LocalStorage */ = {
 			isa = PBXGroup;
 			children = (
+				43EDB02C208619A100034353 /* LocalDB.xcdatamodeld */,
 			);
 			path = LocalStorage;
 			sourceTree = "<group>";
@@ -441,6 +444,7 @@
 				4341E23D2084BE3E000F6F2D /* ViewController.swift in Sources */,
 				43EDB02A2085CBAE00034353 /* UIViewController+Extensions.swift in Sources */,
 				4341E26B2084C01B000F6F2D /* CMSearchMovTbCellController.swift in Sources */,
+				43EDB02E208619A100034353 /* LocalDB.xcdatamodeld in Sources */,
 				4341E23B2084BE3E000F6F2D /* AppDelegate.swift in Sources */,
 				4341E2722084C4D3000F6F2D /* UI-Constants.swift in Sources */,
 			);
@@ -779,6 +783,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		43EDB02C208619A100034353 /* LocalDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				43EDB02D208619A100034353 /* LocalDB.xcdatamodel */,
+			);
+			currentVersion = 43EDB02D208619A100034353 /* LocalDB.xcdatamodel */;
+			path = LocalDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4341E22F2084BE3D000F6F2D /* Project object */;
 }

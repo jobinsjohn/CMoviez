@@ -14,9 +14,6 @@ import Alamofire
 
 import SwiftyJSON
 
-import IQKeyboardManagerSwift
-
-
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     @IBOutlet weak var CMSearchViewMasterViewOutlet: UIView!
@@ -126,6 +123,16 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         navigationItem.titleView = imageView
     }
+    
+//    func addSuccessStringToLocalDB()
+//    {
+//        //Encoding array
+//        let encodedArray : NSData = NSKeyedArchiver.archivedData(withRootObject: myMutableArray) as NSData
+//        //Saving
+//        let defaults = UserDefaults.standard
+//        defaults.setValue(encodedArray, forKey:"myKey")
+//        defaults.synchronize()
+//    }
     
     // MARK: - Button Action
     

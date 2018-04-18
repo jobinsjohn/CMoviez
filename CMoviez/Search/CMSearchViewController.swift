@@ -8,11 +8,14 @@
 
 import UIKit
 
+import CoreData
+
 import Kingfisher
 
 import Alamofire
 
 import SwiftyJSON
+
 
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
@@ -124,15 +127,47 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.titleView = imageView
     }
     
-//    func addSuccessStringToLocalDB()
-//    {
-//        //Encoding array
-//        let encodedArray : NSData = NSKeyedArchiver.archivedData(withRootObject: myMutableArray) as NSData
-//        //Saving
-//        let defaults = UserDefaults.standard
-//        defaults.setValue(encodedArray, forKey:"myKey")
-//        defaults.synchronize()
-//    }
+    @available(iOS 10.0, *)
+    func addSuccessStringToLocalDB()
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context)
+        
+        let newSearchString = NSManagedObject(entity: entity!, insertInto: context)
+        
+        newSearchString.setValue("String Added", forKey: "searchTitle")
+        
+        do {
+            try context.save()
+        } catch {
+            print("Failed saving")
+        }
+    }
+    
+    @available(iOS 10.0, *)
+    func fetchSearchHistoryFromLocalDB()
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
+        //request.predicate = NSPredicate(format: "age = %@", "12")
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try context.fetch(request)
+            for data in result as! [NSManagedObject] {
+                print(data.value(forKey: "searchTitle") as! String)
+            }
+            
+        } catch {
+            
+            print("Failed")
+        }
+    }
     
     // MARK: - Button Action
     
@@ -176,8 +211,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
         
-        print(movPosterArr[indexPath.row])
-        
         if(movPosterArr[indexPath.row] == "")
         {
             movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
@@ -187,7 +220,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
              movieCell.moviePosterImageView.kf.setImage(with: imgURL)
         }
         
-
         movieCell.movieNameLabel.text = movNameArr[indexPath.row]
         
         movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
@@ -280,6 +312,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         self.currentPage = startPage
 
         isLoadingData = true
+        
+        if #available(iOS 10.0, *) {
+            self.fetchSearchHistoryFromLocalDB()
+        } else {
+            debugPrint("Cant Fetch Data as not availaaible")
+        }
 
         let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchString+"&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
         print(webURL)
@@ -312,8 +350,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                             }
                             //Insert Search String into CoreData Data Base
                             
-                            
-                            
+                            if #available(iOS 10.0, *) {
+                                self.addSuccessStringToLocalDB()
+                            } else {
+                                debugPrint("Local DB not availaible")
+                            }
                         }
                     }
                     self.isLoadingData = false

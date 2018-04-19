@@ -18,7 +18,7 @@ let APP_IMG_URL                         =   "http://image.tmdb.org/t/p/w185"
 
 // MARK: - APP Titles
 
-let APP_NAME                            =   "Careem Movies"
+let APP_NAME                            =   "CFlix"
 
 // MARK: - APP Token keys
 let SERVER_API_TOKEN                    =   "2696829a81b1b5827d515ff121700838"//"2696829a81b1b5827d515ff121700838"
@@ -51,6 +51,8 @@ let UNEXPECTED_ERROR_ALERT              =   "Something unexpected happened. We a
 let SERVICE_TEMP_UNAVAILAIBLE_ALERT     =   "Service is temporarily unavailaible. We are working to fix it as soon as possible."
 let SERVER_DOWN_ERROR_ALERT             =   "Holy...Moly... We just blew a fuse... Need more amps... We will be back shortly..."
 let EMPTY_SRCH_FIELD_ERROR_ALL          =   "All fields should be filled"
+let NO_NETWORK_ALERT_MSG                =   "You are not connected to internet. Please check your connectivity"
+let NO_MORE_DATA_MSG                =   "You are not connected to internet. Please check your connectivity"
 
 // ACCEPTABLE CHARACTERS
 let ACCEPTABLE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "

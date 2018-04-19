@@ -168,7 +168,6 @@
 				433B293F20889F3C000F2808 /* LocalImages */,
 				43EDB02B208618BC00034353 /* LocalStorage */,
 				43EDB0272085CB7000034353 /* Helpers */,
-				4341E2682084BFAD000F6F2D /* Constants */,
 				4341E2692084BFE6000F6F2D /* Search */,
 				4341E23A2084BE3E000F6F2D /* AppDelegate.swift */,
 				4341E23E2084BE3E000F6F2D /* Main.storyboard */,
@@ -221,6 +220,7 @@
 			children = (
 				433B29462088A3E1000F2808 /* Reachability */,
 				43EDB0282085CB7A00034353 /* Extensions */,
+				4341E2682084BFAD000F6F2D /* Constants */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -429,15 +429,23 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-CMoviez/Pods-CMoviez-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireNetworkActivityIndicator/AlamofireNetworkActivityIndicator.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MarqueeLabel/MarqueeLabel.framework",
+				"${BUILT_PRODUCTS_DIR}/NotificationBannerSwift/NotificationBannerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireNetworkActivityIndicator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarqueeLabel.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NotificationBannerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

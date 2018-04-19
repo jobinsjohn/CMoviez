@@ -1,4 +1,4 @@
-# Uncomment the next line to define a global platform for your project
+#Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
 target 'CMoviez' do
@@ -10,9 +10,11 @@ target 'CMoviez' do
 
 	pod 'SwiftyJSON', '~> 4.0'
 
-	#pod 'IQKeyboardManager'
-
 	pod 'IQKeyboardManagerSwift'
+
+	pod 'NotificationBannerSwift'
+
+	pod 'AlamofireNetworkActivityIndicator', '~> 2.2'
   # Pods for CMoviez
 
   target 'CMoviezTests' do

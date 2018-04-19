@@ -16,6 +16,7 @@ import Alamofire
 
 import SwiftyJSON
 
+import NotificationBannerSwift
 
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
@@ -323,7 +324,17 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         if(searchTextLocal != "")
         {
-            self.getMovieListFromServerInitial(searchString: searchTextLocal)
+            if(Connectivity.isConnectedToInternet())
+            {
+                self.getMovieListFromServerInitial(searchString: searchTextLocal)
+            }
+            else
+            {
+                let banner = NotificationBanner(title: APP_NAME, subtitle: NO_NETWORK_ALERT_MSG, style: .warning)
+                banner.show()
+                debugPrint("Not connected to internet")
+                
+            }
         }
         else
         {
@@ -620,6 +631,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         else
         {
             print("No more data to load")
+            
             self.isLoadingData = false
         }
     }

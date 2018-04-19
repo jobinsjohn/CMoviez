@@ -19,34 +19,49 @@ import SwiftyJSON
 
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
+    /// This variable references the Master View.
     @IBOutlet weak var CMSearchViewMasterViewOutlet: UIView!
     
+    /// This variable references the Search Bar in the  View.
     @IBOutlet weak var CMSearchViewSrchBarOutlet: UISearchBar!
     
+    /// This variable references the the Search button in the View.
     @IBOutlet weak var CMSearchViewSrchBtnOutlet: UIButton!
     
+    /// This variable references the table view in which search results are shown.
     @IBOutlet weak var CMSearchViewMovTbOutlet: UITableView!
     
+    /// This variable holds the start page value.
     var startPage       : Int   = 1
     
+    /// This variable holds the current page value.
     var currentPage     : Int   = 0
     
+    /// This variable holds the total page count.
     var totalpageCount  : Int   = 0
     
+    /// This variable holds the loading state of API. It holds a Boolean value.
     var isLoadingData   : Bool  = false
     
+    /// This variable shows whether the data shown is recent history or not. It holds a Boolean value.
     var isShowingLocalDB : Bool = false
     
+    /// This variable holds the search text from search bar.
     var searchTextLocal : String = ""
     
+    /// This array holds the movie names that are returned from API.
     fileprivate var movNameArr          :   [String]    = []
     
+    /// This array holds the movie release date that are returned from API.
     fileprivate var movRelDateArr       :   [String]    = []
     
+    /// This array holds the movie overview that are returned from API.
     fileprivate var movOvrViewArr       :   [String]    = []
     
+    /// This array holds the movie poster path links that are returned from API.
     fileprivate var movPosterArr        :   [String]    = []
     
+    /// This array holds the movie names that the user searched and they are returned from Local DB.
     fileprivate var movRecentHistoryArr :   [String]    = []
 
     override func viewDidLoad() {
@@ -132,7 +147,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         self.totalpageCount  = 0
     }
     
-    /*!
+    /**
      @brief Clears local recent history.
      
      @discussion This method clears the local recent history in the application.
@@ -147,7 +162,17 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     {
         movRecentHistoryArr = []
     }
-    
+    /**
+     @brief Adds image to Navigation Bar.
+     
+     @discussion Adds custom Nav Bar Image to the View
+     
+     To use it, simply call self.addNavBarImage()
+     
+     @param Nil.
+     
+     @return Nil.
+     */
     func addNavBarImage() {
         
         let navController = navigationController!
@@ -171,6 +196,18 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.titleView = imageView
     }
     
+    
+    /**
+     @brief Add string to Local DB.
+     
+     @discussion If the search was success with more than 0 records then that Search String is added to the Local DB to be made availaible for showing recent search history
+     
+     To use it, simply call self.addSuccessStringToLocalDB(stringToAdd : <String to be passed>)
+     
+     @param Search String
+     
+     @return Nil.
+     */
     @available(iOS 10.0, *)
     func addSuccessStringToLocalDB(stringToAdd : String)
     {
@@ -197,7 +234,17 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print("Failed saving")
         }
     }
-    
+    /**
+     @brief Reads search string from Local DB.
+     
+     @discussion Reads the search strings from database and is shown in recent history part. This function returns only the latest 10 records
+     
+     To use it, simply call self.fetchSearchHistoryFromLocalDB()
+     
+     @param Nil.
+     
+     @return Nil.
+     */
     @available(iOS 10.0, *)
     func fetchSearchHistoryFromLocalDB()
     {
@@ -231,6 +278,18 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print("Failed")
         }
     }
+    
+    /**
+     @brief Clears Local DB.
+     
+     @discussion Used to clear local DB. This method is for testing purpose.
+     
+     To use it, simply call clearDB()
+     
+     @param Nil.
+     
+     @return Nil.
+     */
     @available(iOS 10.0, *)
     func clearDB()
     {

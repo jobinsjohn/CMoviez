@@ -35,16 +35,19 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     var isLoadingData   : Bool  = false
     
+    var isShowingLocalDB : Bool = false
+    
     var searchTextLocal : String = ""
     
-    fileprivate var movNameArr        :   [String]    = []
+    fileprivate var movNameArr          :   [String]    = []
     
-    fileprivate var movRelDateArr     :   [String]    = []
+    fileprivate var movRelDateArr       :   [String]    = []
     
-    fileprivate var movOvrViewArr     :   [String]    = []
+    fileprivate var movOvrViewArr       :   [String]    = []
     
-    fileprivate var movPosterArr      :   [String]    = []
+    fileprivate var movPosterArr        :   [String]    = []
     
+    fileprivate var movRecentHistoryArr :   [String]    = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +56,13 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         CMSearchViewSrchBarOutlet.delegate = self
         
+        CMSearchViewMovTbOutlet.keyboardDismissMode = .onDrag
+        
         self.addNavBarImage()
         
-//        CMSearchViewMovTbOutlet.rowHeight = UITableViewAutomaticDimension
-//
-//        //CMSearchViewMovTbOutlet.estimatedRowHeight = 160
+//        if #available(iOS 10.0, *) {
+//            clearDB()
+//        }
         
         self.hideKeyboardWhenTappedAround()  // For dismissing Keyboard
     }
@@ -84,6 +89,17 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - Custom functions
     
+    /**
+     @brief Clears local values.
+     
+     @discussion It clears the values that are stored for showing in the search list.
+     
+     To use it, simply call self.clearLocalData()
+     
+     @param  Nil.
+     
+     @return Nil.
+     */
     func clearLocalData()
     {
         movNameArr      = []
@@ -93,8 +109,20 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         movOvrViewArr   = []
         
         movPosterArr    = []
-    }
+        
     
+    }
+     /**
+     @brief It converts temperature degrees from Fahrenheit to Celsius scale.
+     
+     @discussion This method accepts a float value representing the temperature in <b>Fahrenheit</b> scale and it converts it to the <i>Celsius</i> scale.
+     
+     To use it, simply call @c[self toCelsius: 50];
+     
+     @param  fromFahrenheit The input value representing the degrees in the Fahrenheit scale.
+     
+     @return float The degrees in the Celsius scale.
+     */
     func clearCountVariables()
     {
         self.startPage       = 1
@@ -102,6 +130,22 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         self.currentPage     = 0
         
         self.totalpageCount  = 0
+    }
+    
+    /*!
+     @brief Clears local recent history.
+     
+     @discussion This method clears the local recent history in the application.
+     
+     To use it, simply call self.clearRecentHistoryData()
+     
+     @param Nil.
+     
+     @return Nil.
+     */
+    func clearRecentHistoryData()
+    {
+        movRecentHistoryArr = []
     }
     
     func addNavBarImage() {
@@ -128,18 +172,25 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @available(iOS 10.0, *)
-    func addSuccessStringToLocalDB()
+    func addSuccessStringToLocalDB(stringToAdd : String)
     {
+
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let context = appDelegate.persistentContainer.viewContext
         
         let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context)
         
-        let newSearchString = NSManagedObject(entity: entity!, insertInto: context)
+        let newDataObj = NSManagedObject(entity: entity!, insertInto: context)
         
-        newSearchString.setValue("String Added", forKey: "searchTitle")
+        let timeStamp = NSDate()
+    
+        let modifiedInsertString = stringToAdd.replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
         
+        newDataObj.setValue(modifiedInsertString, forKey: "searchTitle")
+        
+        newDataObj.setValue(timeStamp, forKey: "timeStamp")
+
         do {
             try context.save()
         } catch {
@@ -150,17 +201,29 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     @available(iOS 10.0, *)
     func fetchSearchHistoryFromLocalDB()
     {
+        self.clearRecentHistoryData()
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let context = appDelegate.persistentContainer.viewContext
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
-        //request.predicate = NSPredicate(format: "age = %@", "12")
+        
+        let sectionSortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        
+        let sortDescriptors = [sectionSortDescriptor]
+        
+        request.sortDescriptors = sortDescriptors
+        
+        request.fetchLimit = 10
+        
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
-            for data in result as! [NSManagedObject] {
-                print(data.value(forKey: "searchTitle") as! String)
+            for data in result as! [NSManagedObject]
+            {
+                movRecentHistoryArr.append(data.value(forKey: "searchTitle") as! String)
+                print(data.value(forKey: "timeStamp") as! Date)
             }
             
         } catch {
@@ -168,11 +231,30 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print("Failed")
         }
     }
+    @available(iOS 10.0, *)
+    func clearDB()
+    {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        let context = appDelegate.persistentContainer.viewContext
+        
+        let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
+        
+        do {
+            try context.execute(deleteRequest)
+            try context.save()
+        } catch {
+            print ("There was an error")
+        }
+    }
     
     // MARK: - Button Action
     
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
         debugPrint("Search Btn Tapped")
+        
+        isShowingLocalDB = false
         
         let originalSearchString = self.CMSearchViewSrchBarOutlet.text!
         
@@ -200,41 +282,67 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return movNameArr.count
+        
+        if (isShowingLocalDB)
+        {
+            return movRecentHistoryArr.count
+        }
+        else
+        {
+            return movNameArr.count
+        }
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
-
-        movieCell.moviePosterImageView.kf.indicatorType = .activity
         
-        let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
-        
-        if(movPosterArr[indexPath.row] == "")
+        if (isShowingLocalDB)
         {
-            movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
+            let historycell = tableView.dequeueReusableCell(withIdentifier: "recentHistoryCellID", for: indexPath) as! CMSearchRecentHistoryTbCellController
+            
+            let modifiedDataString = movRecentHistoryArr[indexPath.row].replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
+            
+            historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
+            
+            return historycell
         }
         else
         {
-             movieCell.moviePosterImageView.kf.setImage(with: imgURL)
-        }
         
-        movieCell.movieNameLabel.text = movNameArr[indexPath.row]
+            let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
+
+            movieCell.moviePosterImageView.kf.indicatorType = .activity
         
-        movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
+            let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
         
-        movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
+            if(movPosterArr[indexPath.row] == "")
+            {
+                movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
+                
+            }
+            else
+            {
+                movieCell.moviePosterImageView.kf.setImage(with: imgURL)
+            }
         
-        movieCell.movieNameLabel.sizeToFit()
+            movieCell.movieNameLabel.text = movNameArr[indexPath.row]
         
-        movieCell.movieOverviewLabel.sizeToFit()
+            movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
+        
+            movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
+        
+            movieCell.movieNameLabel.sizeToFit()
+        
+            movieCell.movieOverviewLabel.sizeToFit()
        
-        return movieCell
-        
+            return movieCell
+        }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (isShowingLocalDB)
+        {return}
+        
         let lastElement = movNameArr.count - 1
         if indexPath.row == lastElement {
             // handle your logic here to get more items, add it to dataSource and reload tableview
@@ -242,6 +350,31 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if(isShowingLocalDB)
+        {
+            let cellTapped = tableView.cellForRow(at: indexPath) as! CMSearchRecentHistoryTbCellController
+            
+            let stringSel = cellTapped.rcntHisMovienameLabelOutlet.text
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+            
+            self.CMSearchViewSrchBarOutlet.text = stringSel
+            
+            self.getMovieListFromServerInitial(searchString: stringSel!)
+            
+        }
+        else
+        {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
+    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        if(isShowingLocalDB){
+//            return 25.0
+//        }else{return 0.0}
+//    }
+//
 //    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
 //        return 160.0
 //    }
@@ -274,11 +407,13 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         if (CMSearchViewSrchBarOutlet.text?.count == 0)
         {
             print("While entering the characters this method gets called")
-            
+            if #available(iOS 10.0, *) {
+                isShowingLocalDB = true
+                fetchSearchHistoryFromLocalDB()
+            }
             self.clearLocalData()
             
             self.CMSearchViewMovTbOutlet.reloadData()
-            
         }
     }
 
@@ -289,7 +424,10 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         //searchActive = false;
-        print(CMSearchViewSrchBarOutlet.text!)
+        if #available(iOS 10.0, *) {
+            isShowingLocalDB = true
+            fetchSearchHistoryFromLocalDB()
+        }
     }
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -351,7 +489,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                             //Insert Search String into CoreData Data Base
                             
                             if #available(iOS 10.0, *) {
-                                self.addSuccessStringToLocalDB()
+                                self.addSuccessStringToLocalDB(stringToAdd: searchString)
                             } else {
                                 debugPrint("Local DB not availaible")
                             }

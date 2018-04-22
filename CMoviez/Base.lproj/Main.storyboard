@@ -28,12 +28,13 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="55" id="3ck-XN-yxP"/>
                                         </constraints>
+                                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                     </searchBar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WY-e8-yDG">
                                         <rect key="frame" x="310" y="10" width="55" height="35"/>
-                                        <color key="backgroundColor" red="0.050980392156862744" green="0.062745098039215685" blue="0.054901960784313725" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="3PN-hi-bUD"/>
                                             <constraint firstAttribute="height" constant="35" id="j5z-YZ-hBS"/>

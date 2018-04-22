@@ -212,7 +212,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     @available(iOS 10.0, *)
     func addSuccessStringToLocalDB(stringToAdd : String)
     {
-
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         let context = appDelegate.persistentContainer.viewContext
@@ -374,6 +373,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             
             historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
             
+            historycell.selectedBackgroundView?.backgroundColor = UIColor(hexString: "28BB4E")
+            
             return historycell
         }
         else
@@ -431,12 +432,14 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.CMSearchViewSrchBarOutlet.text = stringSel
             
-            self.getMovieListFromServerInitial(searchString: stringSel!)
+            //isLoadingData = false
+            
+            //self.getMovieListFromServerInitial(searchString: stringSel!)
             
         }
         else
         {
-            tableView.deselectRow(at: indexPath, animated: false)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -516,7 +519,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     func getMovieListFromServerInitial(searchString : String)
     {
         self.clearLocalData()
-
+        
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
         self.currentPage = startPage
 
         isLoadingData = true
@@ -566,10 +571,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                         }
                     }
                     self.isLoadingData = false
+                    UIApplication.shared.endIgnoringInteractionEvents()
                 }
 
             case .failure(let error):
                 self.isLoadingData = false
+                UIApplication.shared.endIgnoringInteractionEvents()
                 print(error)
             }
         }
@@ -581,6 +588,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             return
         }
         self.currentPage = currentPage + 1
+        
+        UIApplication.shared.beginIgnoringInteractionEvents() 
         
         self.isLoadingData = true
         
@@ -614,17 +623,19 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                                     self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
                                 
                                     self.CMSearchViewMovTbOutlet.reloadData()
-                                //self.CMSearchViewMovTbOutlet.reloadData()
+                                
                                 }
                             }
                         }
                     
                         self.isLoadingData = false
+                        UIApplication.shared.endIgnoringInteractionEvents()
                     }
                 
                 case .failure(let error):
                     print(error)
                     self.isLoadingData = false
+                    UIApplication.shared.endIgnoringInteractionEvents()
                 }
             }
         }
@@ -633,6 +644,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print("No more data to load")
             
             self.isLoadingData = false
+            UIApplication.shared.endIgnoringInteractionEvents()
         }
     }
     

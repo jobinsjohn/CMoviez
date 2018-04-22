@@ -98,11 +98,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     
     // MARK: - UI functions
     
-    func setCMSearchUI()
-    {
-        
-    }
-    
+
     // MARK: - Custom functions
     
     /**
@@ -212,20 +208,21 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     @available(iOS 10.0, *)
     func addSuccessStringToLocalDB(stringToAdd : String)
     {
+        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
+
         let context = appDelegate.persistentContainer.viewContext
-        
+
         let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context)
-        
+
         let newDataObj = NSManagedObject(entity: entity!, insertInto: context)
-        
+
         let timeStamp = NSDate()
-    
+
         let modifiedInsertString = stringToAdd.replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
-        
+
         newDataObj.setValue(modifiedInsertString, forKey: "searchTitle")
-        
+
         newDataObj.setValue(timeStamp, forKey: "timeStamp")
 
         do {
@@ -371,9 +368,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             
             let modifiedDataString = movRecentHistoryArr[indexPath.row].replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
             
-            historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
+            historycell.selectionStyle = .none
             
-            historycell.selectedBackgroundView?.backgroundColor = UIColor(hexString: "28BB4E")
+            historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
             
             return historycell
         }
@@ -398,10 +395,27 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
             movieCell.movieNameLabel.text = movNameArr[indexPath.row]
         
-            movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
-        
-            movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
-        
+            if(movRelDateArr[indexPath.row] == "")
+            {
+                movieCell.movieReleaseDateLabel.text = "Release Date : Not Available"
+                
+            }
+            else
+            {
+               movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
+            }
+            if(movOvrViewArr[indexPath.row] == "")
+            {
+                movieCell.movieOverviewLabel.text = "Overview Not Available"
+                
+            }
+            else
+            {
+                movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
+            }
+            
+            movieCell.selectionStyle = .none
+            
             movieCell.movieNameLabel.sizeToFit()
         
             movieCell.movieOverviewLabel.sizeToFit()
@@ -461,13 +475,13 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         if (CMSearchViewSrchBarOutlet.text?.count == 0)
         {
-            print("While entering the characters this method gets called")
-            
             self.clearLocalData()
             
             self.CMSearchViewMovTbOutlet.reloadData()
             
+            self.CMSearchViewSrchBarOutlet.resignFirstResponder()
         }
+        
         let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
         
         let filteredSearchText = text.components(separatedBy: cs).joined(separator: "")

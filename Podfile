@@ -15,6 +15,8 @@ target 'CMoviez' do
 	pod 'NotificationBannerSwift'
 
 	pod 'AlamofireNetworkActivityIndicator', '~> 2.2'
+
+
   # Pods for CMoviez
 
   target 'CMoviezTests' do

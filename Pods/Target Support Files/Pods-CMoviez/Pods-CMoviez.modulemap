@@ -1,0 +1,6 @@
+framework module Pods_CMoviez {
+  umbrella header "Pods-CMoviez-umbrella.h"
+
+  export *
+  module * { export * }
+}

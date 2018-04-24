@@ -583,6 +583,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             case .failure(let error):
                 self.isLoadingData = false
                 UIApplication.shared.endIgnoringInteractionEvents()
+                debugPrint(error)
                 CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
             }
         }

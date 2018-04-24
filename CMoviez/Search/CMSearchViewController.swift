@@ -18,6 +18,8 @@ import SwiftyJSON
 
 import NotificationBannerSwift
 
+import TBEmptyDataSet
+
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     /// This variable references the Master View.
@@ -73,6 +75,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         CMSearchViewSrchBarOutlet.delegate = self
         
         CMSearchViewMovTbOutlet.keyboardDismissMode = .onDrag
+        
+        CMSearchViewMovTbOutlet.emptyDataSetDataSource = self as? TBEmptyDataSetDataSource
+        CMSearchViewMovTbOutlet.emptyDataSetDelegate = self as? TBEmptyDataSetDelegate
         
         self.addNavBarImage()
         
@@ -329,7 +334,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                 let banner = NotificationBanner(title: APP_NAME, subtitle: NO_NETWORK_ALERT_MSG, style: .warning)
                 banner.show()
                 debugPrint("Not connected to internet")
-                
             }
         }
         else
@@ -446,26 +450,13 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.CMSearchViewSrchBarOutlet.text = stringSel
             
-            //isLoadingData = false
-            
-            //self.getMovieListFromServerInitial(searchString: stringSel!)
-            
         }
         else
         {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        if(isShowingLocalDB){
-//            return 25.0
-//        }else{return 0.0}
-//    }
-//
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 160.0
-//    }
-    
+
     //Search Bar Delegates
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         print(CMSearchViewSrchBarOutlet.text!)
@@ -479,7 +470,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             
             self.CMSearchViewMovTbOutlet.reloadData()
             
-            self.CMSearchViewSrchBarOutlet.resignFirstResponder()
         }
         
         let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
@@ -490,7 +480,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        //searchActive = true;
         if (CMSearchViewSrchBarOutlet.text?.count == 0)
         {
             print("While entering the characters this method gets called")
@@ -526,9 +515,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         print(CMSearchViewSrchBarOutlet.text!)
     }
     
-    
     // MARK: - API Calls
-
 
     func getMovieListFromServerInitial(searchString : String)
     {
@@ -583,6 +570,14 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                                 debugPrint("Local DB not availaible")
                             }
                         }
+                        else
+                        {
+                            self.CMSearchViewMovTbOutlet.reloadData()
+                            
+                            self.CMSearchViewSrchBarOutlet.text = ""
+                            
+                            CFlixDefaultWrappers().showAlert(info: NO_DATA_FOUND_MSG, viewController: self)
+                        }
                     }
                     self.isLoadingData = false
                     UIApplication.shared.endIgnoringInteractionEvents()
@@ -618,8 +613,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                     if let json = response.result.value
                     {
                         let jsonObj  = JSON(json)
-                    
-                    //print(jsonObj)
+                
                         if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
                         {
                             print(resultsArray.count)

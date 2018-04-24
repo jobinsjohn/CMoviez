@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CMoviez/Search/CMSearchViewController.swift"
-            timestampString = "546244382.781826"
+            timestampString = "546247978.869001"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "getMovieListFromServerInitial(searchString:)"
+            startingLineNumber = "506"
+            endingLineNumber = "506"
+            landmarkName = "searchBarSearchButtonClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CMoviez/Search/CMSearchViewController.swift"
-            timestampString = "546244382.782167"
+            timestampString = "546247978.8692729"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "532"
-            endingLineNumber = "532"
-            landmarkName = "getMovieListFromServerInitial(searchString:)"
+            startingLineNumber = "511"
+            endingLineNumber = "511"
+            landmarkName = "searchBarResultsListButtonClicked(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

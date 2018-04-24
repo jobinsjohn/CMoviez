@@ -73,15 +73,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         CMSearchViewSrchBarOutlet.delegate = self
         
         CMSearchViewMovTbOutlet.keyboardDismissMode = .onDrag
-        
-        CMSearchViewMovTbOutlet.emptyDataSetDataSource = self as? TBEmptyDataSetDataSource
-        CMSearchViewMovTbOutlet.emptyDataSetDelegate = self as? TBEmptyDataSetDelegate
-        
+
         self.addNavBarImage()
         
-//        if #available(iOS 10.0, *) {
-//            clearDB()
-//        }
+        /*if #available(iOS 10.0, *) {
+            clearDB()
+        }*/
         
         self.hideKeyboardWhenTappedAround()  // For dismissing Keyboard
     }
@@ -586,7 +583,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             case .failure(let error):
                 self.isLoadingData = false
                 UIApplication.shared.endIgnoringInteractionEvents()
-                print(error)
+                CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
             }
         }
     }
@@ -604,12 +601,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
         if(self.currentPage <= self.totalpageCount)
         {
-            let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchStringMore+"&page="+String(self.currentPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
-                print(webURL)
+            let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchStringMore+"&page="+String(self.currentPage)
+
             Alamofire.request(webURL).validate().responseJSON { response in
                 switch response.result {
                 case .success:
-                    print("Validation Successful")
                     if let json = response.result.value
                     {
                         let jsonObj  = JSON(json)
@@ -649,9 +645,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else
         {
-            print("No more data to load")
-            
             self.isLoadingData = false
+            CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
             UIApplication.shared.endIgnoringInteractionEvents()
         }
     }

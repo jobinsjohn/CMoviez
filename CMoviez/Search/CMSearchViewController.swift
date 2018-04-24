@@ -338,6 +338,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         }
         else
         {
+            let banner = NotificationBanner(title: APP_NAME, subtitle: EMPTY_SRCH_FIELD_ERROR, style: .warning)
+            banner.show()
             print("Search empty")
         }
     }

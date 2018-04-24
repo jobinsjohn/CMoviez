@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yiT-Fi-Hhw">
-                                <rect key="frame" x="0.0" y="64" width="375" height="55"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
                                 <subviews>
                                     <searchBar contentMode="redraw" placeholder="Enter a movie name" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sre-MS-aZm">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="55"/>
@@ -33,7 +33,7 @@
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                     </searchBar>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WY-e8-yDG">
-                                        <rect key="frame" x="310" y="10" width="55" height="35"/>
+                                        <rect key="frame" x="310" y="7.5" width="55" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="55" id="3PN-hi-bUD"/>
@@ -53,13 +53,13 @@
                                     <constraint firstItem="Sre-MS-aZm" firstAttribute="top" secondItem="yiT-Fi-Hhw" secondAttribute="top" id="2WK-sa-5lE"/>
                                     <constraint firstItem="7WY-e8-yDG" firstAttribute="centerY" secondItem="yiT-Fi-Hhw" secondAttribute="centerY" id="4wo-hS-Ij6"/>
                                     <constraint firstAttribute="trailing" secondItem="7WY-e8-yDG" secondAttribute="trailing" constant="10" id="FJu-qK-Lpl"/>
-                                    <constraint firstAttribute="height" constant="55" id="Nmv-am-uCH"/>
+                                    <constraint firstAttribute="height" constant="50" id="Nmv-am-uCH"/>
                                     <constraint firstItem="Sre-MS-aZm" firstAttribute="leading" secondItem="yiT-Fi-Hhw" secondAttribute="leading" id="b0x-9u-rst"/>
                                     <constraint firstItem="7WY-e8-yDG" firstAttribute="leading" secondItem="Sre-MS-aZm" secondAttribute="trailing" constant="10" id="hIG-5s-0Yg"/>
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ebm-Xj-zaU">
-                                <rect key="frame" x="0.0" y="119" width="375" height="548"/>
+                                <rect key="frame" x="0.0" y="114" width="375" height="553"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movTbCellID" rowHeight="160" id="7ho-pm-TXR" customClass="CMSearchMovTbCellController" customModule="CMoviez" customModuleProvider="target">

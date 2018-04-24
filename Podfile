@@ -16,7 +16,7 @@ target 'CMoviez' do
 
 	pod 'AlamofireNetworkActivityIndicator', '~> 2.2'
 
-
+	pod 'TBEmptyDataSet'
   # Pods for CMoviez
 
   target 'CMoviezTests' do

@@ -14,6 +14,8 @@ import Alamofire
 
 import AlamofireNetworkActivityIndicator
 
+import NotificationBannerSwift
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -46,6 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
+        if(!(Connectivity.isConnectedToInternet()))
+        {
+            let banner = NotificationBanner(title: APP_NAME, subtitle: NO_NETWORK_ALERT_MSG, style: .warning)
+            banner.show()
+        }
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -83,7 +91,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                  * The store could not be migrated to the current model version.
                  Check the error message to determine what the actual problem was.
                  */
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                //fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
         return container
@@ -100,8 +108,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } catch {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                //let nserror = error as NSError
+                //fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
     }

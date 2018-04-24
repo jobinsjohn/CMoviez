@@ -18,8 +18,6 @@ import SwiftyJSON
 
 import NotificationBannerSwift
 
-import TBEmptyDataSet
-
 class CMSearchViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
     /// This variable references the Master View.

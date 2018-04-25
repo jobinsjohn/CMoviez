@@ -112,6 +112,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     func clearLocalData()
     {
         movNameArr      = []
@@ -124,6 +125,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         
     
     }
+    
      /**
      @brief It converts temperature degrees from Fahrenheit to Celsius scale.
      
@@ -135,6 +137,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return float The degrees in the Celsius scale.
      */
+    
     func clearCountVariables()
     {
         self.startPage       = 1
@@ -155,10 +158,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     func clearRecentHistoryData()
     {
         movRecentHistoryArr = []
     }
+    
     /**
      @brief Adds image to Navigation Bar.
      
@@ -170,29 +175,20 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     func addNavBarImage() {
         
         let navController = navigationController!
-        
         let image = UIImage(named: "navBarImg")
-        
         let imageView = UIImageView(image: image)
-        
         let bannerWidth = navController.navigationBar.frame.size.width
-        
         let bannerHeight = navController.navigationBar.frame.size.height
-        
         let bannerX = bannerWidth / 2 - (image?.size.width)! / 2
-        
         let bannerY = bannerHeight / 2 - (image?.size.height)! / 2
-        
         imageView.frame = CGRect(x: bannerX, y: bannerY, width: bannerWidth, height: bannerHeight)
-        
         imageView.contentMode = .scaleAspectFit
-        
         navigationItem.titleView = imageView
     }
-    
     
     /**
      @brief Add string to Local DB.
@@ -205,26 +201,18 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     @available(iOS 10.0, *)
     func addSuccessStringToLocalDB(stringToAdd : String)
     {
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-
         let context = appDelegate.persistentContainer.viewContext
-
         let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context)
-
         let newDataObj = NSManagedObject(entity: entity!, insertInto: context)
-
         let timeStamp = NSDate()
-
         let modifiedInsertString = stringToAdd.replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
-
         newDataObj.setValue(modifiedInsertString, forKey: "searchTitle")
-
         newDataObj.setValue(timeStamp, forKey: "timeStamp")
-
         do {
             try context.save()
         } catch {
@@ -242,23 +230,19 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     @available(iOS 10.0, *)
     func fetchSearchHistoryFromLocalDB()
     {
         self.clearRecentHistoryData()
         
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         let context = appDelegate.persistentContainer.viewContext
-        
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
-        
         let sectionSortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
-        
         let sortDescriptors = [sectionSortDescriptor]
         
         request.sortDescriptors = sortDescriptors
-        
         request.fetchLimit = 10
         
         request.returnsObjectsAsFaults = false
@@ -269,9 +253,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                 movRecentHistoryArr.append(data.value(forKey: "searchTitle") as! String)
                 print(data.value(forKey: "timeStamp") as! Date)
             }
-            
         } catch {
-            
             print("Failed")
         }
     }
@@ -287,13 +269,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
+    
     @available(iOS 10.0, *)
     func clearDB()
     {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
         let context = appDelegate.persistentContainer.viewContext
-        
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
         
@@ -308,14 +289,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
     // MARK: - Button Action
     
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
+        
         debugPrint("Search Btn Tapped")
-        
         isShowingLocalDB = false
-        
         let originalSearchString = self.CMSearchViewSrchBarOutlet.text!
-        
         let modifiedSearchString = originalSearchString.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
-        
         searchTextLocal = modifiedSearchString
         
         if(searchTextLocal != "")
@@ -366,11 +344,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         if (isShowingLocalDB)
         {
             let historycell = tableView.dequeueReusableCell(withIdentifier: "recentHistoryCellID", for: indexPath) as! CMSearchRecentHistoryTbCellController
-            
             let modifiedDataString = movRecentHistoryArr[indexPath.row].replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
-            
             historycell.selectionStyle = .none
-            
             historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
             
             return historycell
@@ -379,15 +354,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         {
         
             let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
-
             movieCell.moviePosterImageView.kf.indicatorType = .activity
-        
             let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
         
             if(movPosterArr[indexPath.row] == "")
             {
                 movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
-                
             }
             else
             {
@@ -399,7 +371,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             if(movRelDateArr[indexPath.row] == "")
             {
                 movieCell.movieReleaseDateLabel.text = "Release Date : Not Available"
-                
             }
             else
             {
@@ -408,7 +379,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             if(movOvrViewArr[indexPath.row] == "")
             {
                 movieCell.movieOverviewLabel.text = "Overview Not Available"
-                
             }
             else
             {
@@ -416,9 +386,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             }
             
             movieCell.selectionStyle = .none
-            
             movieCell.movieNameLabel.sizeToFit()
-        
             movieCell.movieOverviewLabel.sizeToFit()
        
             return movieCell
@@ -440,11 +408,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         if(isShowingLocalDB)
         {
             let cellTapped = tableView.cellForRow(at: indexPath) as! CMSearchRecentHistoryTbCellController
-            
             let stringSel = cellTapped.rcntHisMovienameLabelOutlet.text
-            
             tableView.deselectRow(at: indexPath, animated: true)
-            
             self.CMSearchViewSrchBarOutlet.text = stringSel
             
         }
@@ -464,15 +429,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         if (CMSearchViewSrchBarOutlet.text?.count == 0)
         {
             self.clearLocalData()
-            
             self.CMSearchViewMovTbOutlet.reloadData()
             
         }
         
         let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
-        
         let filteredSearchText = text.components(separatedBy: cs).joined(separator: "")
-        
         return (text == filteredSearchText)
     }
     
@@ -550,13 +512,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                             {
 
                                 self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
-
                                 self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
-
                                 self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
-
                                 self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
-
                                 self.CMSearchViewMovTbOutlet.reloadData()
                             }
                             //Insert Search String into CoreData Data Base
@@ -570,9 +528,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                         else
                         {
                             self.CMSearchViewMovTbOutlet.reloadData()
-                            
                             self.CMSearchViewSrchBarOutlet.text = ""
-                            
                             CFlixDefaultWrappers().showAlert(info: NO_DATA_FOUND_MSG, viewController: self)
                         }
                     }
@@ -620,15 +576,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                                 {
                                 
                                     self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
-                                
                                     self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
-                                
                                     self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
-                                
                                     self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
-                                
                                     self.CMSearchViewMovTbOutlet.reloadData()
-                                
+                                    
                                 }
                             }
                         }
@@ -647,8 +599,8 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         else
         {
             self.isLoadingData = false
-            CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
             UIApplication.shared.endIgnoringInteractionEvents()
+            CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
         }
     }
     

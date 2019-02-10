@@ -1,16 +1,16 @@
 PODS:
-  - Alamofire (4.7.2)
-  - AlamofireNetworkActivityIndicator (2.2.1):
+  - Alamofire (4.8.1)
+  - AlamofireNetworkActivityIndicator (2.3.0):
     - Alamofire (~> 4.7)
-  - IQKeyboardManagerSwift (6.0.2)
-  - Kingfisher (4.7.0)
-  - MarqueeLabel/Swift (3.1.4)
-  - NotificationBannerSwift (1.6.2):
-    - MarqueeLabel/Swift
-    - SnapKit (~> 4.0)
-  - SnapKit (4.0.0)
-  - SwiftyJSON (4.1.0)
-  - TBEmptyDataSet (2.7)
+  - IQKeyboardManagerSwift (6.2.0)
+  - Kingfisher (4.10.1)
+  - MarqueeLabel/Swift (3.2.0)
+  - NotificationBannerSwift (2.0.1):
+    - MarqueeLabel/Swift (~> 3.2.0)
+    - SnapKit (~> 4.2.0)
+  - SnapKit (4.2.0)
+  - SwiftyJSON (4.2.0)
+  - TBEmptyDataSet (2.9)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
@@ -22,7 +22,7 @@ DEPENDENCIES:
   - TBEmptyDataSet
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Alamofire
     - AlamofireNetworkActivityIndicator
     - IQKeyboardManagerSwift
@@ -34,16 +34,16 @@ SPEC REPOS:
     - TBEmptyDataSet
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  AlamofireNetworkActivityIndicator: aeac50e6ecb78ec71a5f1f29098bcf4ec2962910
-  IQKeyboardManagerSwift: 59d4b0e140bc546c3c76ae5bb35b3dafd10b8172
-  Kingfisher: da6b005aa96d37698e3e4f1ccfe96a5b9bbf27d6
-  MarqueeLabel: bf768455fe88d427f71476ebb23f9092b660f40b
-  NotificationBannerSwift: 4eceb2add9d5eaa0596c63d49690b4d6476e74ec
-  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
-  TBEmptyDataSet: 1da712a3e0c324179253960165202d30009cba26
+  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AlamofireNetworkActivityIndicator: 18346ff6d770d9513d0ac6f2d99706f40f93dbaa
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
+  NotificationBannerSwift: 007774aa590cc9680647b92b2f217bef5c00c32c
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  TBEmptyDataSet: 00d37512ef76d8ceed9f4dfb3ce23fdb8951e7a1
 
 PODFILE CHECKSUM: f2d836692e3470d550abeb31f01d8bbd4c695323
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3

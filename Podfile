@@ -12,7 +12,7 @@ target 'CMoviez' do
 
 	pod 'IQKeyboardManagerSwift'
 
-	pod 'NotificationBannerSwift'
+	pod 'NotificationBannerSwift','~> 1.6.2'
 
 	pod 'AlamofireNetworkActivityIndicator', '~> 2.2'
 

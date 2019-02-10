@@ -5,9 +5,9 @@ PODS:
   - IQKeyboardManagerSwift (6.2.0)
   - Kingfisher (4.10.1)
   - MarqueeLabel/Swift (3.2.0)
-  - NotificationBannerSwift (2.0.1):
-    - MarqueeLabel/Swift (~> 3.2.0)
-    - SnapKit (~> 4.2.0)
+  - NotificationBannerSwift (1.6.3):
+    - MarqueeLabel/Swift
+    - SnapKit (~> 4.0)
   - SnapKit (4.2.0)
   - SwiftyJSON (4.2.0)
   - TBEmptyDataSet (2.9)
@@ -17,7 +17,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator (~> 2.2)
   - IQKeyboardManagerSwift
   - Kingfisher (~> 4)
-  - NotificationBannerSwift
+  - NotificationBannerSwift (~> 1.6.2)
   - SwiftyJSON (~> 4.0)
   - TBEmptyDataSet
 
@@ -39,11 +39,11 @@ SPEC CHECKSUMS:
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
-  NotificationBannerSwift: 007774aa590cc9680647b92b2f217bef5c00c32c
+  NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   TBEmptyDataSet: 00d37512ef76d8ceed9f4dfb3ce23fdb8951e7a1
 
-PODFILE CHECKSUM: f2d836692e3470d550abeb31f01d8bbd4c695323
+PODFILE CHECKSUM: 8f076bc3f1bf980bb90b3843a68543dab2f927cc
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0

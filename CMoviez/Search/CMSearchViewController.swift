@@ -22,85 +22,59 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
 
     /// This variable references the Master View.
     @IBOutlet weak var CMSearchViewMasterViewOutlet: UIView!
-    
     /// This variable references the Search Bar in the  View.
     @IBOutlet weak var CMSearchViewSrchBarOutlet: UISearchBar!
-    
     /// This variable references the the Search button in the View.
     @IBOutlet weak var CMSearchViewSrchBtnOutlet: UIButton!
-    
     /// This variable references the table view in which search results are shown.
     @IBOutlet weak var CMSearchViewMovTbOutlet: UITableView!
-    
     /// This variable holds the start page value.
-    var startPage       : Int   = 1
-    
+    var startPage: Int = 1
     /// This variable holds the current page value.
-    var currentPage     : Int   = 0
-    
+    var currentPage: Int = 0
     /// This variable holds the total page count.
-    var totalpageCount  : Int   = 0
-    
+    var totalpageCount: Int = 0
     /// This variable holds the loading state of API. It holds a Boolean value.
-    var isLoadingData   : Bool  = false
-    
+    var isLoadingData: Bool = false
     /// This variable shows whether the data shown is recent history or not. It holds a Boolean value.
-    var isShowingLocalDB : Bool = false
-    
+    var isShowingLocalDB: Bool = false
     /// This variable holds the search text from search bar.
-    var searchTextLocal : String = ""
-    
+    var searchTextLocal: String = ""
     /// This array holds the movie names that are returned from API.
-    fileprivate var movNameArr          :   [String]    = []
-    
+    fileprivate var movNameArr: [String] = []
     /// This array holds the movie release date that are returned from API.
-    fileprivate var movRelDateArr       :   [String]    = []
-    
+    fileprivate var movRelDateArr: [String] = []
     /// This array holds the movie overview that are returned from API.
-    fileprivate var movOvrViewArr       :   [String]    = []
-    
+    fileprivate var movOvrViewArr: [String] = []
     /// This array holds the movie poster path links that are returned from API.
-    fileprivate var movPosterArr        :   [String]    = []
-    
+    fileprivate var movPosterArr: [String] = []
     /// This array holds the movie names that the user searched and they are returned from Local DB.
-    fileprivate var movRecentHistoryArr :   [String]    = []
+    fileprivate var movRecentHistoryArr: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
-        
         CMSearchViewSrchBarOutlet.delegate = self
-        
         CMSearchViewMovTbOutlet.keyboardDismissMode = .onDrag
 
         self.addNavBarImage()
-        
         /*if #available(iOS 10.0, *) {
             clearDB()
         }*/
-        
         self.hideKeyboardWhenTappedAround()  // For dismissing Keyboard
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         debugPrint("Search View Appeared")
-        
         //self.getMovieListFromServerInitial()
     }
     override func viewDidLayoutSubviews() {
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
     // MARK: - UI functions
-    
-
     // MARK: - Custom functions
-    
     /**
      @brief Clears local values.
      
@@ -112,20 +86,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
-    func clearLocalData()
-    {
+    func clearLocalData(){
         movNameArr      = []
-        
         movRelDateArr   = []
-        
         movOvrViewArr   = []
-        
         movPosterArr    = []
-        
-    
     }
-    
      /**
      @brief It converts temperature degrees from Fahrenheit to Celsius scale.
      
@@ -137,16 +103,11 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return float The degrees in the Celsius scale.
      */
-    
-    func clearCountVariables()
-    {
+    func clearCountVariables(){
         self.startPage       = 1
-        
         self.currentPage     = 0
-        
         self.totalpageCount  = 0
     }
-    
     /**
      @brief Clears local recent history.
      
@@ -158,12 +119,9 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
-    func clearRecentHistoryData()
-    {
+    func clearRecentHistoryData(){
         movRecentHistoryArr = []
     }
-    
     /**
      @brief Adds image to Navigation Bar.
      
@@ -175,9 +133,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
     func addNavBarImage() {
-        
         let navController = navigationController!
         let image = UIImage(named: "navBarImg")
         let imageView = UIImageView(image: image)
@@ -189,7 +145,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         imageView.contentMode = .scaleAspectFit
         navigationItem.titleView = imageView
     }
-    
     /**
      @brief Add string to Local DB.
      
@@ -201,20 +156,18 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
     @available(iOS 10.0, *)
-    func addSuccessStringToLocalDB(stringToAdd : String)
-    {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context)
+    func addSuccessStringToLocalDB(stringToAdd : String){
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let context = appDelegate?.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "SearchHistory", in: context!)
         let newDataObj = NSManagedObject(entity: entity!, insertInto: context)
         let timeStamp = NSDate()
         let modifiedInsertString = stringToAdd.replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
         newDataObj.setValue(modifiedInsertString, forKey: "searchTitle")
         newDataObj.setValue(timeStamp, forKey: "timeStamp")
         do {
-            try context.save()
+            try context!.save()
         } catch {
             print("Failed saving")
         }
@@ -230,21 +183,16 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
     @available(iOS 10.0, *)
-    func fetchSearchHistoryFromLocalDB()
-    {
+    func fetchSearchHistoryFromLocalDB(){
         self.clearRecentHistoryData()
-        
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
         let sectionSortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
         let sortDescriptors = [sectionSortDescriptor]
-        
         request.sortDescriptors = sortDescriptors
         request.fetchLimit = 10
-        
         request.returnsObjectsAsFaults = false
         do {
             let result = try context.fetch(request)
@@ -257,7 +205,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print("Failed")
         }
     }
-    
     /**
      @brief Clears Local DB.
      
@@ -269,15 +216,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      
      @return Nil.
      */
-    
     @available(iOS 10.0, *)
-    func clearDB()
-    {
+    func clearDB(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let deleteFetch = NSFetchRequest<NSFetchRequestResult>(entityName: "SearchHistory")
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: deleteFetch)
-        
         do {
             try context.execute(deleteRequest)
             try context.save()
@@ -285,125 +229,84 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             print ("There was an error")
         }
     }
-    
     // MARK: - Button Action
-    
     @IBAction func CMSearchViewSrchBtnAction(_ sender: UIButton) {
-        
         debugPrint("Search Btn Tapped")
         isShowingLocalDB = false
         let originalSearchString = self.CMSearchViewSrchBarOutlet.text!
         let modifiedSearchString = originalSearchString.replacingOccurrences(of: " ", with: "%20", options: .literal, range: nil)
         searchTextLocal = modifiedSearchString
-        
-        if(searchTextLocal != "")
-        {
-            if(Connectivity.isConnectedToInternet())
-            {
+        if(searchTextLocal != ""){
+            if(Connectivity.isConnectedToInternet()){
                 self.getMovieListFromServerInitial(searchString: searchTextLocal)
-            }
-            else
-            {
+            }else {
                 let banner = NotificationBanner(title: APP_NAME, subtitle: NO_NETWORK_ALERT_MSG, style: .warning)
                 banner.show()
                 debugPrint("Not connected to internet")
             }
-        }
-        else
-        {
+        } else {
             let banner = NotificationBanner(title: APP_NAME, subtitle: EMPTY_SRCH_FIELD_ERROR, style: .warning)
             banner.show()
             print("Search empty")
         }
     }
-    
     // MARK: - Delegates
-    
     //Table View Delegates
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        
-        if (isShowingLocalDB)
-        {
+        if (isShowingLocalDB) {
             return movRecentHistoryArr.count
-        }
-        else
-        {
+        } else {
             return movNameArr.count
         }
     }
-    
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if (isShowingLocalDB)
-        {
+        if (isShowingLocalDB) {
             let historycell = tableView.dequeueReusableCell(withIdentifier: "recentHistoryCellID", for: indexPath) as! CMSearchRecentHistoryTbCellController
             let modifiedDataString = movRecentHistoryArr[indexPath.row].replacingOccurrences(of: "%20", with: " ", options: .literal, range: nil)
             historycell.selectionStyle = .none
             historycell.rcntHisMovienameLabelOutlet.text = modifiedDataString
-            
             return historycell
-        }
-        else
-        {
-        
+        } else {
             let movieCell = tableView.dequeueReusableCell(withIdentifier: "movTbCellID", for: indexPath) as! CMSearchMovTbCellController
             movieCell.moviePosterImageView.kf.indicatorType = .activity
             let imgURL       =   URL(string: APP_IMG_URL + movPosterArr[indexPath.row])
-        
-            if(movPosterArr[indexPath.row] == "")
-            {
+            if(movPosterArr[indexPath.row] == "") {
                 movieCell.moviePosterImageView.image = UIImage(named: "noImagePH")
-            }
-            else
-            {
+            } else {
                 movieCell.moviePosterImageView.kf.setImage(with: imgURL)
             }
-        
             movieCell.movieNameLabel.text = movNameArr[indexPath.row]
-        
-            if(movRelDateArr[indexPath.row] == "")
-            {
+            if(movRelDateArr[indexPath.row] == "") {
                 movieCell.movieReleaseDateLabel.text = "Release Date : Not Available"
-            }
-            else
-            {
+            } else {
                movieCell.movieReleaseDateLabel.text = "Release Date : "+movRelDateArr[indexPath.row]
             }
-            if(movOvrViewArr[indexPath.row] == "")
-            {
+            if(movOvrViewArr[indexPath.row] == "") {
                 movieCell.movieOverviewLabel.text = "Overview Not Available"
-            }
-            else
-            {
+            } else {
                 movieCell.movieOverviewLabel.text = movOvrViewArr[indexPath.row]
             }
-            
             movieCell.selectionStyle = .none
             movieCell.movieNameLabel.sizeToFit()
             movieCell.movieOverviewLabel.sizeToFit()
-       
             return movieCell
         }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if (isShowingLocalDB)
-        {return}
-        
+        { return }
         let lastElement = movNameArr.count - 1
         if indexPath.row == lastElement {
             // handle your logic here to get more items, add it to dataSource and reload tableview
             self.getMovieListFromServerLoadMore(searchStringMore: searchTextLocal)
         }
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if(isShowingLocalDB)
         {
@@ -411,10 +314,7 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             let stringSel = cellTapped.rcntHisMovienameLabelOutlet.text
             tableView.deselectRow(at: indexPath, animated: true)
             self.CMSearchViewSrchBarOutlet.text = stringSel
-            
-        }
-        else
-        {
+        } else {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
@@ -424,30 +324,22 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         print(CMSearchViewSrchBarOutlet.text!)
     }
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        print(text)
-        
-        if (CMSearchViewSrchBarOutlet.text?.count == 0)
-        {
+        if (CMSearchViewSrchBarOutlet.text?.count == 0) {
             self.clearLocalData()
             self.CMSearchViewMovTbOutlet.reloadData()
-            
         }
-        
         let cs = NSCharacterSet(charactersIn: ACCEPTABLE_CHARACTERS).inverted
         let filteredSearchText = text.components(separatedBy: cs).joined(separator: "")
         return (text == filteredSearchText)
     }
-    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        if (CMSearchViewSrchBarOutlet.text?.count == 0)
-        {
+        if (CMSearchViewSrchBarOutlet.text?.count == 0) {
             print("While entering the characters this method gets called")
             if #available(iOS 10.0, *) {
                 isShowingLocalDB = true
                 fetchSearchHistoryFromLocalDB()
             }
             self.clearLocalData()
-            
             self.CMSearchViewMovTbOutlet.reloadData()
         }
     }
@@ -456,7 +348,6 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
         //searchActive = false;
         print(CMSearchViewSrchBarOutlet.text!)
     }
-
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         //searchActive = false;
         if #available(iOS 10.0, *) {
@@ -464,53 +355,36 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             fetchSearchHistoryFromLocalDB()
         }
     }
-
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         //searchActive = false;
         print(CMSearchViewSrchBarOutlet.text!)
     }
-    
     func searchBarResultsListButtonClicked(_ searchBar: UISearchBar) {
         print(CMSearchViewSrchBarOutlet.text!)
     }
-    
     // MARK: - API Calls
-
-    func getMovieListFromServerInitial(searchString : String)
-    {
+    func getMovieListFromServerInitial(searchString : String) {
         self.clearLocalData()
-        
         UIApplication.shared.beginIgnoringInteractionEvents()
-        
         self.currentPage = startPage
-
         isLoadingData = true
-        
         if #available(iOS 10.0, *) {
             self.fetchSearchHistoryFromLocalDB()
         } else {
             debugPrint("Cant Fetch Data as not availaaible")
         }
 
-        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchString+"&page="+String(startPage)//APP_BASE_URL + DASHBOARD_PRODUCT_ALL_API
-        print(webURL)
+        let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchString+"&page="+String(startPage)
         Alamofire.request(webURL).validate().responseJSON { response in
             switch response.result {
             case .success:
                 print("Validation Successful")
-                if let json = response.result.value
-                {
+                if let json = response.result.value {
                     let jsonObj  = JSON(json)
-
-                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
-                    {
+                    if let resultsArray = jsonObj["results"].arrayValue as [JSON]? {
                         self.totalpageCount = jsonObj["total_pages"].intValue
-
-                        if(resultsArray.count > 0)
-                        {
-                            for index in 0...resultsArray.count-1
-                            {
-
+                        if(resultsArray.count > 0) {
+                            for index in 0...resultsArray.count-1 {
                                 self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
                                 self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
                                 self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
@@ -518,15 +392,12 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
                                 self.CMSearchViewMovTbOutlet.reloadData()
                             }
                             //Insert Search String into CoreData Data Base
-                            
                             if #available(iOS 10.0, *) {
                                 self.addSuccessStringToLocalDB(stringToAdd: searchString)
                             } else {
                                 debugPrint("Local DB not availaible")
                             }
-                        }
-                        else
-                        {
+                        } else {
                             self.CMSearchViewMovTbOutlet.reloadData()
                             self.CMSearchViewSrchBarOutlet.text = ""
                             CFlixDefaultWrappers().showAlert(info: NO_DATA_FOUND_MSG, viewController: self)
@@ -544,66 +415,48 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
             }
         }
     }
-    func getMovieListFromServerLoadMore(searchStringMore : String)
+    func getMovieListFromServerLoadMore(searchStringMore: String)
     {
-        //self.clearLocalData()
         if(isLoadingData){
             return
         }
         self.currentPage = currentPage + 1
-        
-        UIApplication.shared.beginIgnoringInteractionEvents() 
-        
+        UIApplication.shared.beginIgnoringInteractionEvents()
         self.isLoadingData = true
-        
-        if(self.currentPage <= self.totalpageCount)
-        {
+        if(self.currentPage <= self.totalpageCount) {
             let webURL: String  =   "http://api.themoviedb.org/3/search/movie?api_key="+SERVER_API_TOKEN+"&query="+searchStringMore+"&page="+String(self.currentPage)
 
             Alamofire.request(webURL).validate().responseJSON { response in
                 switch response.result {
                 case .success:
-                    if let json = response.result.value
-                    {
+                    if let json = response.result.value {
                         let jsonObj  = JSON(json)
-                
-                        if let resultsArray = jsonObj["results"].arrayValue as [JSON]?
-                        {
-                            print(resultsArray.count)
-                            if(resultsArray.count > 0)
-                            {
-                                for index in 0...resultsArray.count-1
-                                {
-                                
+                        if let resultsArray = jsonObj["results"].arrayValue as [JSON]? {
+                            if( resultsArray.count > 0 ) {
+                                for index in 0...resultsArray.count-1 {
                                     self.movNameArr.append(resultsArray[index]["original_title"].stringValue)
                                     self.movRelDateArr.append(resultsArray[index]["release_date"].stringValue)
                                     self.movPosterArr.append(resultsArray[index]["poster_path"].stringValue)
                                     self.movOvrViewArr.append(resultsArray[index]["overview"].stringValue)
                                     self.CMSearchViewMovTbOutlet.reloadData()
-                                    
                                 }
                             }
                         }
-                    
                         self.isLoadingData = false
                         UIApplication.shared.endIgnoringInteractionEvents()
                     }
-                
                 case .failure(let error):
                     print(error)
                     self.isLoadingData = false
                     UIApplication.shared.endIgnoringInteractionEvents()
                 }
             }
-        }
-        else
-        {
+        } else {
             self.isLoadingData = false
             UIApplication.shared.endIgnoringInteractionEvents()
             CFlixDefaultWrappers().showAlert(info: SERVER_DOWN_ERROR_ALERT, viewController: self)
         }
     }
-    
     /*
      // MARK: - Navigation
      
@@ -613,5 +466,4 @@ class CMSearchViewController: UIViewController, UITableViewDelegate, UITableView
      // Pass the selected object to the new view controller.
      }
      */
-    
 }

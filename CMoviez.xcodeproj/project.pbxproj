@@ -277,6 +277,7 @@
 				4341E2342084BE3E000F6F2D /* Frameworks */,
 				4341E2352084BE3E000F6F2D /* Resources */,
 				415DBD39FEEA2028F96B3BD9 /* [CP] Embed Pods Frameworks */,
+				43F22BAB2212A15200A8A0E7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -468,6 +469,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CMoviez/Pods-CMoviez-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		43F22BAB2212A15200A8A0E7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		92BBAD95E0C3097D359F171D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

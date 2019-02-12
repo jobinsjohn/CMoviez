@@ -9,6 +9,7 @@ PODS:
     - MarqueeLabel/Swift
     - SnapKit (~> 4.0)
   - SnapKit (4.2.0)
+  - SwiftLint (0.30.1)
   - SwiftyJSON (4.2.0)
   - TBEmptyDataSet (2.9)
 
@@ -18,6 +19,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
   - Kingfisher (~> 4)
   - NotificationBannerSwift (~> 1.6.2)
+  - SwiftLint
   - SwiftyJSON (~> 4.0)
   - TBEmptyDataSet
 
@@ -30,6 +32,7 @@ SPEC REPOS:
     - MarqueeLabel
     - NotificationBannerSwift
     - SnapKit
+    - SwiftLint
     - SwiftyJSON
     - TBEmptyDataSet
 
@@ -41,9 +44,10 @@ SPEC CHECKSUMS:
   MarqueeLabel: 440a502b91a9179bd98f9fff00ba1150650a1c0e
   NotificationBannerSwift: b231e4c3244848ef300e1c53ce027b9756b9b06f
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  SwiftLint: a54bf1fe12b55c68560eb2a7689dfc81458508f7
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   TBEmptyDataSet: 00d37512ef76d8ceed9f4dfb3ce23fdb8951e7a1
 
-PODFILE CHECKSUM: 8f076bc3f1bf980bb90b3843a68543dab2f927cc
+PODFILE CHECKSUM: f7a54a227aa8fda8916a3aa439211aee9018f168
 
 COCOAPODS: 1.6.0

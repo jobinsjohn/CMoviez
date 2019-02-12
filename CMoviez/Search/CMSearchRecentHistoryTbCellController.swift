@@ -9,10 +9,7 @@
 import UIKit
 
 class CMSearchRecentHistoryTbCellController: UITableViewCell {
-
-    
     @IBOutlet weak var rcntHisMovienameLabelOutlet: UILabel!
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

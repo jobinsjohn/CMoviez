@@ -25,7 +25,6 @@ let SERVER_API_TOKEN                    =   "2696829a81b1b5827d515ff121700838"//
 
 // MARK: - View Titles
 
-
 // MARK: - API List's
 
 let SEARCH_MOVIE_API                    =   "3/search/movie"
